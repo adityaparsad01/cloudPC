@@ -25,10 +25,13 @@ jobs:
           # Authenticate ngrok with the provided token
           ngrok config add-authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
 
-      - name: Start ngrok Tunnel
+      - name: Start ngrok Tunnel in Loop
         run: |
-          # Create an ngrok TCP tunnel to port 22 (SSH)
-          nohup ngrok tcp 22 &
+          # Start ngrok tunnel in the background
+          ngrok tcp 22 &
+
+          # Keep the script running
+          while true; do sleep 1000; done
 
       - name: Enable SSH (if not already enabled)
         run: |
