@@ -12,16 +12,18 @@ jobs:
       - name: Install ngrok
         run: |
           # Download the latest ngrok version
-          wget https://bin.equinox.io/c/111111/ngrok-stable-linux-amd64.zip -O ngrok.zip
-          # Unzip ngrok
-          unzip ngrok.zip -d /usr/local/bin
-          # Clean up the zip file
-          rm ngrok.zip
+          wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz -O ngrok.tgz
+          
+          # Extract ngrok and move it to /usr/local/bin
+          sudo tar -xvzf ngrok.tgz -C /usr/local/bin
+
+          # Clean up by removing the downloaded tar file
+          rm ngrok.tgz
 
       - name: Authenticate ngrok
         run: |
           # Authenticate ngrok with the provided token
-          ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
+          ngrok config add-authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
 
       - name: Start ngrok Tunnel
         run: |
